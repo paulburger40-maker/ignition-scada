@@ -1,0 +1,618 @@
+{
+  "custom": {
+    "actionFeedback": "",
+    "snapshot": {
+      "mode": "Real equipment",
+      "instruments": [],
+      "cleanup_status": "",
+      "cottage": {
+        "online": false,
+        "status": "Bridge authorization needed",
+        "power_w": null,
+        "voltage_v": null,
+        "current_a": null,
+        "updated_ms": 0
+      }
+    }
+  },
+  "params": {},
+  "propConfig": {
+    "custom.snapshot": {
+      "binding": {
+        "type": "expr",
+        "config": {
+          "expression": "now(2000)"
+        },
+        "transforms": [
+          {
+            "type": "script",
+            "code": "\treturn home_scada.snapshot()"
+          }
+        ]
+      }
+    }
+  },
+  "props": {
+    "defaultSize": {
+      "width": 1280,
+      "height": 980
+    }
+  },
+  "root": {
+    "type": "ia.container.flex",
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "direction": "column",
+      "style": {
+        "backgroundColor": "#f4f7fa",
+        "padding": "24px",
+        "gap": "18px",
+        "overflowY": "auto"
+      }
+    },
+    "children": [
+      {
+        "type": "ia.display.label",
+        "meta": {
+          "name": "Brand"
+        },
+        "position": {
+          "basis": "auto",
+          "shrink": 0
+        },
+        "props": {
+          "text": "MY HOME",
+          "style": {
+            "fontSize": "13px",
+            "color": "#007f8b"
+          }
+        }
+      },
+      {
+        "type": "ia.container.flex",
+        "meta": {
+          "name": "Heading"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {
+          "direction": "row",
+          "wrap": "wrap",
+          "alignItems": "stretch",
+          "style": {
+            "gap": "12px"
+          }
+        },
+        "children": [
+          {
+            "type": "ia.display.label",
+            "meta": {
+              "name": "Title"
+            },
+            "position": {
+              "basis": "auto",
+              "shrink": 0
+            },
+            "props": {
+              "text": "EV Charging",
+              "style": {
+                "fontSize": "32px",
+                "color": "#152638"
+              }
+            }
+          },
+          {
+            "type": "ia.display.label",
+            "meta": {
+              "name": "Mode"
+            },
+            "position": {
+              "basis": "auto",
+              "shrink": 0
+            },
+            "props": {
+              "text": "REAL EQUIPMENT \u00b7 READ ONLY",
+              "style": {
+                "fontSize": "13px",
+                "color": "#007f8b"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "ia.container.flex",
+        "meta": {
+          "name": "Access"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {
+          "direction": "row",
+          "wrap": "wrap",
+          "alignItems": "stretch",
+          "style": {
+            "gap": "12px"
+          }
+        },
+        "children": [
+          {
+            "type": "ia.display.label",
+            "meta": {
+              "name": "AccessMode"
+            },
+            "position": {
+              "basis": "auto",
+              "shrink": 0
+            },
+            "props": {
+              "text": "",
+              "style": {
+                "fontSize": "13px",
+                "color": "#152638"
+              }
+            },
+            "propConfig": {
+              "props.text": {
+                "binding": {
+                  "type": "expr",
+                  "config": {
+                    "expression": "if(isAuthorized(false, \"Authenticated/Roles/Administrator\"), \"Administrator \u00b7 instrument setup\", \"Household access \u00b7 view readings\")"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.input.button",
+            "meta": {
+              "name": "Logout"
+            },
+            "position": {
+              "basis": "144px",
+              "shrink": 0
+            },
+            "props": {
+              "text": "Log out",
+              "style": {
+                "backgroundColor": "#007f8b",
+                "color": "#ffffff",
+                "border": "none",
+                "borderRadius": "10px",
+                "minWidth": "150px",
+                "fontSize": "14px",
+                "padding": "8px 14px"
+              }
+            },
+            "events": {
+              "component": {
+                "onActionPerformed": {
+                  "type": "script",
+                  "scope": "G",
+                  "config": {
+                    "script": "\ttry:\n\t\tsystem.perspective.logout(sessionId=self.session.props.id, pageId=self.page.props.pageId)\n\texcept Exception as error:\n\t\tself.view.custom.actionFeedback = \"Action failed. Please retry or report this message.\"\n\t\tsystem.util.getLogger(\"HomeSCADA.UI\").warn(\"Logout failed: \" + type(error).__name__)"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "ia.container.flex",
+        "meta": {
+          "name": "Navigation"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {
+          "direction": "row",
+          "wrap": "wrap",
+          "alignItems": "stretch",
+          "style": {
+            "gap": "12px"
+          }
+        },
+        "children": [
+          {
+            "type": "ia.input.button",
+            "meta": {
+              "name": "Nav0"
+            },
+            "position": {
+              "basis": "144px",
+              "shrink": 0
+            },
+            "props": {
+              "text": "Overview",
+              "style": {
+                "backgroundColor": "#007f8b",
+                "color": "#ffffff",
+                "border": "none",
+                "borderRadius": "10px",
+                "minWidth": "150px",
+                "fontSize": "14px",
+                "padding": "8px 14px"
+              }
+            },
+            "events": {
+              "component": {
+                "onActionPerformed": {
+                  "type": "script",
+                  "scope": "G",
+                  "config": {
+                    "script": "\ttry:\n\t\tsystem.perspective.navigate(page=\"/\", sessionId=self.session.props.id, pageId=self.page.props.pageId)\n\texcept Exception as error:\n\t\tself.view.custom.actionFeedback = \"Action failed. Please retry or report this message.\"\n\t\tsystem.util.getLogger(\"HomeSCADA.UI\").warn(\"Nav0 failed: \" + type(error).__name__)"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.input.button",
+            "meta": {
+              "name": "Nav1"
+            },
+            "position": {
+              "basis": "144px",
+              "shrink": 0
+            },
+            "props": {
+              "text": "Energy",
+              "style": {
+                "backgroundColor": "#007f8b",
+                "color": "#ffffff",
+                "border": "none",
+                "borderRadius": "10px",
+                "minWidth": "150px",
+                "fontSize": "14px",
+                "padding": "8px 14px"
+              }
+            },
+            "events": {
+              "component": {
+                "onActionPerformed": {
+                  "type": "script",
+                  "scope": "G",
+                  "config": {
+                    "script": "\ttry:\n\t\tsystem.perspective.navigate(page=\"/energy\", sessionId=self.session.props.id, pageId=self.page.props.pageId)\n\texcept Exception as error:\n\t\tself.view.custom.actionFeedback = \"Action failed. Please retry or report this message.\"\n\t\tsystem.util.getLogger(\"HomeSCADA.UI\").warn(\"Nav1 failed: \" + type(error).__name__)"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.input.button",
+            "meta": {
+              "name": "Nav2"
+            },
+            "position": {
+              "basis": "144px",
+              "shrink": 0
+            },
+            "props": {
+              "text": "EV Charging",
+              "style": {
+                "backgroundColor": "#007f8b",
+                "color": "#ffffff",
+                "border": "none",
+                "borderRadius": "10px",
+                "minWidth": "150px",
+                "fontSize": "14px",
+                "padding": "8px 14px"
+              }
+            },
+            "events": {
+              "component": {
+                "onActionPerformed": {
+                  "type": "script",
+                  "scope": "G",
+                  "config": {
+                    "script": "\ttry:\n\t\tsystem.perspective.navigate(page=\"/charging\", sessionId=self.session.props.id, pageId=self.page.props.pageId)\n\texcept Exception as error:\n\t\tself.view.custom.actionFeedback = \"Action failed. Please retry or report this message.\"\n\t\tsystem.util.getLogger(\"HomeSCADA.UI\").warn(\"Nav2 failed: \" + type(error).__name__)"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.input.button",
+            "meta": {
+              "name": "Nav3"
+            },
+            "position": {
+              "basis": "144px",
+              "shrink": 0
+            },
+            "props": {
+              "text": "Switches",
+              "style": {
+                "backgroundColor": "#007f8b",
+                "color": "#ffffff",
+                "border": "none",
+                "borderRadius": "10px",
+                "minWidth": "150px",
+                "fontSize": "14px",
+                "padding": "8px 14px"
+              }
+            },
+            "events": {
+              "component": {
+                "onActionPerformed": {
+                  "type": "script",
+                  "scope": "G",
+                  "config": {
+                    "script": "\ttry:\n\t\tsystem.perspective.navigate(page=\"/switches\", sessionId=self.session.props.id, pageId=self.page.props.pageId)\n\texcept Exception as error:\n\t\tself.view.custom.actionFeedback = \"Action failed. Please retry or report this message.\"\n\t\tsystem.util.getLogger(\"HomeSCADA.UI\").warn(\"Nav3 failed: \" + type(error).__name__)"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.input.button",
+            "meta": {
+              "name": "Nav4"
+            },
+            "position": {
+              "basis": "144px",
+              "shrink": 0
+            },
+            "props": {
+              "text": "Remote",
+              "style": {
+                "backgroundColor": "#007f8b",
+                "color": "#ffffff",
+                "border": "none",
+                "borderRadius": "10px",
+                "minWidth": "150px",
+                "fontSize": "14px",
+                "padding": "8px 14px"
+              }
+            },
+            "events": {
+              "component": {
+                "onActionPerformed": {
+                  "type": "script",
+                  "scope": "G",
+                  "config": {
+                    "script": "\ttry:\n\t\tsystem.perspective.navigate(page=\"/remote\", sessionId=self.session.props.id, pageId=self.page.props.pageId)\n\texcept Exception as error:\n\t\tself.view.custom.actionFeedback = \"Action failed. Please retry or report this message.\"\n\t\tsystem.util.getLogger(\"HomeSCADA.UI\").warn(\"Nav4 failed: \" + type(error).__name__)"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.input.button",
+            "meta": {
+              "name": "Nav5"
+            },
+            "position": {
+              "basis": "144px",
+              "shrink": 0
+            },
+            "props": {
+              "text": "Security",
+              "style": {
+                "backgroundColor": "#007f8b",
+                "color": "#ffffff",
+                "border": "none",
+                "borderRadius": "10px",
+                "minWidth": "150px",
+                "fontSize": "14px",
+                "padding": "8px 14px"
+              }
+            },
+            "events": {
+              "component": {
+                "onActionPerformed": {
+                  "type": "script",
+                  "scope": "G",
+                  "config": {
+                    "script": "\ttry:\n\t\tsystem.perspective.navigate(page=\"/security\", sessionId=self.session.props.id, pageId=self.page.props.pageId)\n\texcept Exception as error:\n\t\tself.view.custom.actionFeedback = \"Action failed. Please retry or report this message.\"\n\t\tsystem.util.getLogger(\"HomeSCADA.UI\").warn(\"Nav5 failed: \" + type(error).__name__)"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.input.button",
+            "meta": {
+              "name": "Nav6"
+            },
+            "position": {
+              "basis": "144px",
+              "shrink": 0
+            },
+            "props": {
+              "text": "Instruments",
+              "style": {
+                "backgroundColor": "#007f8b",
+                "color": "#ffffff",
+                "border": "none",
+                "borderRadius": "10px",
+                "minWidth": "150px",
+                "fontSize": "14px",
+                "padding": "8px 14px"
+              }
+            },
+            "events": {
+              "component": {
+                "onActionPerformed": {
+                  "type": "script",
+                  "scope": "G",
+                  "config": {
+                    "script": "\ttry:\n\t\tsystem.perspective.navigate(page=\"/integrations\", sessionId=self.session.props.id, pageId=self.page.props.pageId)\n\texcept Exception as error:\n\t\tself.view.custom.actionFeedback = \"Action failed. Please retry or report this message.\"\n\t\tsystem.util.getLogger(\"HomeSCADA.UI\").warn(\"Nav6 failed: \" + type(error).__name__)"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "ia.display.label",
+        "meta": {
+          "name": "ActionFeedback"
+        },
+        "position": {
+          "basis": "auto",
+          "shrink": 0
+        },
+        "props": {
+          "text": "",
+          "style": {
+            "fontSize": "16px",
+            "color": "#9b6612"
+          }
+        },
+        "propConfig": {
+          "props.text": {
+            "binding": {
+              "type": "expr",
+              "config": {
+                "expression": "{view.custom.actionFeedback}"
+              }
+            }
+          }
+        }
+      },
+      {
+        "type": "ia.container.flex",
+        "meta": {
+          "name": "Geely"
+        },
+        "position": {
+          "basis": "260px",
+          "grow": 1,
+          "shrink": 1
+        },
+        "props": {
+          "direction": "column",
+          "style": {
+            "backgroundColor": "#ffffff",
+            "borderRadius": "14px",
+            "padding": "20px",
+            "gap": "12px",
+            "border": "1px solid #dce6ee"
+          }
+        },
+        "children": [
+          {
+            "type": "ia.display.label",
+            "meta": {
+              "name": "GeelyTitle"
+            },
+            "position": {
+              "basis": "auto",
+              "shrink": 0
+            },
+            "props": {
+              "text": "Geely wall-mounted charger",
+              "style": {
+                "fontSize": "22px",
+                "color": "#152638"
+              }
+            }
+          },
+          {
+            "type": "ia.display.label",
+            "meta": {
+              "name": "GeelyState"
+            },
+            "position": {
+              "basis": "auto",
+              "shrink": 0
+            },
+            "props": {
+              "text": "Not connected",
+              "style": {
+                "fontSize": "16px",
+                "color": "#9b6612"
+              }
+            }
+          },
+          {
+            "type": "ia.display.label",
+            "meta": {
+              "name": "GeelyNote"
+            },
+            "position": {
+              "basis": "auto",
+              "shrink": 0
+            },
+            "props": {
+              "text": "Add its exact model. Available readings and controls will follow the supported interface.",
+              "style": {
+                "fontSize": "14px",
+                "color": "#566c7c"
+              }
+            }
+          },
+          {
+            "type": "ia.input.button",
+            "meta": {
+              "name": "AddCharger"
+            },
+            "position": {
+              "basis": "42px",
+              "shrink": 0
+            },
+            "props": {
+              "text": "Set up instrument slot",
+              "style": {
+                "backgroundColor": "#007f8b",
+                "color": "#ffffff",
+                "border": "none",
+                "borderRadius": "10px",
+                "minWidth": "150px",
+                "fontSize": "14px",
+                "padding": "8px 14px"
+              }
+            },
+            "events": {
+              "component": {
+                "onActionPerformed": {
+                  "type": "script",
+                  "scope": "G",
+                  "config": {
+                    "script": "\ttry:\n\t\tsystem.perspective.openPopup(\"instrument-slot\", \"Home/InstrumentSetup\", params={\"kind\": \"Charger\"}, modal=True, showCloseIcon=True, title=\"Add instrument slot\", sessionId=self.session.props.id, pageId=self.page.props.pageId, viewportBound=True)\n\texcept Exception as error:\n\t\tself.view.custom.actionFeedback = \"Action failed. Please retry or report this message.\"\n\t\tsystem.util.getLogger(\"HomeSCADA.UI\").warn(\"AddCharger failed: \" + type(error).__name__)"
+                  }
+                }
+              }
+            },
+            "propConfig": {
+              "props.enabled": {
+                "binding": {
+                  "type": "expr",
+                  "config": {
+                    "expression": "isAuthorized(false, \"Authenticated/Roles/Administrator\")"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "ia.display.label",
+        "meta": {
+          "name": "EVState"
+        },
+        "position": {
+          "basis": "auto",
+          "shrink": 0
+        },
+        "props": {
+          "text": "Charging state, current and session energy are unavailable until connected.",
+          "style": {
+            "fontSize": "14px",
+            "color": "#152638"
+          }
+        }
+      }
+    ]
+  }
+}

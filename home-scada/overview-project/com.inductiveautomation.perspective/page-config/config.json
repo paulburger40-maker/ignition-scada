@@ -1,0 +1,14 @@
+{
+  "pages": {
+    "/": {
+      "title": "Cottage \u00b7 Overview",
+      "viewPath": "Home/Overview",
+      "docks": {}
+    },
+    "/energy": {
+      "title": "Cottage \u00b7 Overview",
+      "viewPath": "Home/Overview",
+      "docks": {}
+    }
+  }
+}

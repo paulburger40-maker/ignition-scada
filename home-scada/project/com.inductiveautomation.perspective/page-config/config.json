@@ -1,0 +1,39 @@
+{
+  "pages": {
+    "/": {
+      "title": "My Home \u00b7 Overview",
+      "viewPath": "Home/Overview",
+      "docks": {}
+    },
+    "/energy": {
+      "title": "My Home \u00b7 Energy",
+      "viewPath": "Home/Energy",
+      "docks": {}
+    },
+    "/charging": {
+      "title": "My Home \u00b7 EV Charging",
+      "viewPath": "Home/EVCharging",
+      "docks": {}
+    },
+    "/switches": {
+      "title": "My Home \u00b7 Switches",
+      "viewPath": "Home/Switches",
+      "docks": {}
+    },
+    "/remote": {
+      "title": "My Home \u00b7 Remote",
+      "viewPath": "Home/Remote",
+      "docks": {}
+    },
+    "/security": {
+      "title": "My Home \u00b7 Security",
+      "viewPath": "Home/Security",
+      "docks": {}
+    },
+    "/integrations": {
+      "title": "My Home \u00b7 Instruments",
+      "viewPath": "Home/Integrations",
+      "docks": {}
+    }
+  }
+}

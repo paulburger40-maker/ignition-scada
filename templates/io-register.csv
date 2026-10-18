@@ -1,0 +1,2 @@
+Equipment,TagPath,Description,Device,Address,DataType,EngineeringUnits,RawMin,RawMax,ScaledMin,ScaledMax,ReadWrite,ScanRateMs,HistoryEnabled,AlarmRequirements,QualityBehavior,Notes
+ExampleFan,Simulation/Fan01/Speed,Simulated fan speed,Simulation,,Float4,rpm,0,1500,0,1500,Read,1000,Yes,Define from engineering requirements,Show bad quality and prevent invalid commands,Example only; replace with approved process values

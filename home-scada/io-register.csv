@@ -1,0 +1,4 @@
+Equipment,Measurement,Source,Units,ConnectionStatus,ReadWrite
+POWCT cottage,ActivePower_W,CUBE electric-power,W,Awaiting authorization and unit verification,Read only
+POWCT cottage,Voltage_V,CUBE voltage,V,Awaiting capability verification,Read only
+POWCT cottage,Current_A,CUBE electric-current,A,Awaiting capability verification,Read only

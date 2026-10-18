@@ -1,0 +1,230 @@
+{
+  "custom": {
+    "feedback": "",
+    "actionFeedback": ""
+  },
+  "params": {
+    "kind": "Other"
+  },
+  "props": {
+    "defaultSize": {
+      "width": 520,
+      "height": 420
+    }
+  },
+  "root": {
+    "type": "ia.container.flex",
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "direction": "column",
+      "style": {
+        "padding": "24px",
+        "gap": "12px",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "children": [
+      {
+        "type": "ia.display.label",
+        "meta": {
+          "name": "FormTitle"
+        },
+        "position": {
+          "basis": "auto",
+          "shrink": 0
+        },
+        "props": {
+          "text": "Add a real instrument slot",
+          "style": {
+            "fontSize": "24px",
+            "color": "#152638"
+          }
+        }
+      },
+      {
+        "type": "ia.display.label",
+        "meta": {
+          "name": "FormHelp"
+        },
+        "position": {
+          "basis": "auto",
+          "shrink": 0
+        },
+        "props": {
+          "text": "Save its identity now; connect and verify hardware separately. Do not enter passwords or keys here.",
+          "style": {
+            "fontSize": "14px",
+            "color": "#152638"
+          }
+        }
+      },
+      {
+        "type": "ia.input.dropdown",
+        "meta": {
+          "name": "Kind"
+        },
+        "position": {
+          "basis": "42px",
+          "shrink": 0
+        },
+        "props": {
+          "options": [
+            {
+              "value": "Meter",
+              "label": "Meter"
+            },
+            {
+              "value": "Charger",
+              "label": "Charger"
+            },
+            {
+              "value": "Switch",
+              "label": "Switch"
+            },
+            {
+              "value": "TV",
+              "label": "TV"
+            },
+            {
+              "value": "Alexa",
+              "label": "Alexa"
+            },
+            {
+              "value": "Security",
+              "label": "Security"
+            },
+            {
+              "value": "Other",
+              "label": "Other"
+            }
+          ],
+          "value": "Other"
+        },
+        "propConfig": {
+          "props.value": {
+            "binding": {
+              "type": "expr",
+              "config": {
+                "expression": "{view.params.kind}"
+              }
+            }
+          }
+        }
+      },
+      {
+        "type": "ia.input.text-field",
+        "meta": {
+          "name": "SlotName"
+        },
+        "position": {
+          "basis": "42px",
+          "shrink": 0
+        },
+        "props": {
+          "text": "",
+          "placeholder": "Instrument name"
+        }
+      },
+      {
+        "type": "ia.input.text-field",
+        "meta": {
+          "name": "Model"
+        },
+        "position": {
+          "basis": "42px",
+          "shrink": 0
+        },
+        "props": {
+          "text": "",
+          "placeholder": "Brand and exact model"
+        }
+      },
+      {
+        "type": "ia.input.text-field",
+        "meta": {
+          "name": "Location"
+        },
+        "position": {
+          "basis": "42px",
+          "shrink": 0
+        },
+        "props": {
+          "text": "",
+          "placeholder": "Room or location"
+        }
+      },
+      {
+        "type": "ia.input.button",
+        "meta": {
+          "name": "SaveSlot"
+        },
+        "position": {
+          "basis": "42px",
+          "shrink": 0
+        },
+        "props": {
+          "text": "Save slot",
+          "style": {
+            "backgroundColor": "#007f8b",
+            "color": "#ffffff",
+            "border": "none",
+            "borderRadius": "10px",
+            "minWidth": "150px",
+            "fontSize": "14px",
+            "padding": "8px 14px"
+          }
+        },
+        "events": {
+          "component": {
+            "onActionPerformed": {
+              "type": "script",
+              "scope": "G",
+              "config": {
+                "script": "\ttry:\n\t\tself.view.custom.feedback = home_scada.save_slot(self.getSibling(\"Kind\").props.value, self.getSibling(\"SlotName\").props.text, self.getSibling(\"Model\").props.text, self.getSibling(\"Location\").props.text, self.session.props.id)\n\texcept Exception as error:\n\t\tself.view.custom.actionFeedback = \"Action failed. Please retry or report this message.\"\n\t\tsystem.util.getLogger(\"HomeSCADA.UI\").warn(\"SaveSlot failed: \" + type(error).__name__)"
+              }
+            }
+          }
+        },
+        "propConfig": {
+          "props.enabled": {
+            "binding": {
+              "type": "expr",
+              "config": {
+                "expression": "isAuthorized(false, \"Authenticated/Roles/Administrator\")"
+              }
+            }
+          }
+        }
+      },
+      {
+        "type": "ia.display.label",
+        "meta": {
+          "name": "FormFeedback"
+        },
+        "position": {
+          "basis": "auto",
+          "shrink": 0
+        },
+        "props": {
+          "text": "",
+          "style": {
+            "fontSize": "16px",
+            "color": "#007f8b"
+          }
+        },
+        "propConfig": {
+          "props.text": {
+            "binding": {
+              "type": "expr",
+              "config": {
+                "expression": "{view.custom.feedback}"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

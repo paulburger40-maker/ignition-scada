@@ -1,0 +1,1 @@
+{"type": "AnyOf", "securityLevels": [{"name": "Authenticated", "children": [{"name": "Roles", "children": [{"name": "HomeViewer", "children": []}, {"name": "HomeOperator", "children": []}, {"name": "Administrator", "children": []}]}]}]}

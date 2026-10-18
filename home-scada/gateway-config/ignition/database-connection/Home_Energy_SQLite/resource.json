@@ -1,0 +1,17 @@
+{
+  "scope": "A",
+  "version": 1,
+  "restricted": false,
+  "overridable": true,
+  "files": [
+    "config.json"
+  ],
+  "attributes": {
+    "lastModification": {
+      "actor": "home-scada-build",
+      "timestamp": "2026-10-17T17:46:59Z"
+    },
+    "enabled": true,
+    "uuid": "77e68779-a315-40bc-97bf-9e185c7ac55b"
+  }
+}
